@@ -1,0 +1,32 @@
+<div align="center">
+  <md-card align="left" layout="column" flex="50" layout-padding layout-margin>
+    <!-- sign up form + validation -->
+    <h2>Register Company</h2>
+    <form name="signupForm" layout="column">
+      <md-input-container>
+        <label>Company Name (Only letters, numbers, and underscores)</label>
+        <input name="companyname" required ng-model="companyname" ng-pattern="/^[a-zA-Z0-9_]*$/">
+      </md-input-container>
+      <md-input-container>
+        <label>Display Name</label>
+        <input name="displayname" required ng-model="displayname">
+      </md-input-container>
+      <md-input-container>
+        <label>Shared Password</label>
+        <input name="password" required ng-model="password" type="password">
+      </md-input-container>
+      <md-input-container>
+        <label>Confirm Password</label>
+        <input name="confirmPassword" required ng-model="confirmPassword"
+               ng-pattern="{{password}}" type="password">
+      </md-input-container>
+      <md-button ng-disabled="signupForm.$invalid" ng-click="submitSignup()"
+                 class="md-raised md-primary">
+        Submit
+      </md-button>
+      <md-button ng-click="cancel()" class="md-raised md-primary">
+        Cancel
+      </md-button>
+    </form>
+  </md-card>
+</div>

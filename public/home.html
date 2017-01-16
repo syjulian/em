@@ -1,0 +1,108 @@
+<div align="center">
+    <!-- login form + signup-->
+    <md-card ng-hide="currentCompany" layout="column" flex="25" layout-padding layout-margin>
+        <form name="loginForm" layout="column">
+            <md-input-container>
+                <label>Company Name</label>
+                <input name="companyname" required ng-model="companyname">
+            </md-input-container>
+            <md-input-container>
+                <label>Shared Password</label>
+                <input name="password" required ng-model="password" type="password">
+            </md-input-container>
+            <md-button ng-disabled="loginForm.$invalid" ng-click="login()"
+                       class="md-raised md-primary">
+                Login
+            </md-button>
+            <a href="#!/signup">Not a member? Signup</a>
+        </form>
+    </md-card>
+
+    <div layout="row">
+
+        <!-- welcome message + logout-->
+        <md-card ng-show="currentCompany" flex="25" layout-padding layout-margin>
+            <h1>Hello {{currentCompany}}!</h1>
+            <md-button class="md-raised md-warn" ng-click="logout()">Logout</md-button>
+        </md-card>
+
+
+        <!-- the company select and employee list alternate in which is displayed-->
+
+        <!-- employee form  + validation-->
+        <md-card ng-if="isFormMode" flex="75" layout-padding layout-margin>
+            <h2>Employee to {{currentCompany}}</h2>
+            <form name="employeeForm" layout="column">
+                <md-input-container>
+                    <label>Employee Name</label>
+                    <input name="name" required ng-model="currentEmployee.name">
+                </md-input-container>
+                <md-input-container>
+                    <label>Phone Number</label>
+                    <input name="phone" ng-model="currentEmployee.phone"
+                           ng-pattern="/^\d{10}$/">
+                </md-input-container>
+                <md-input-container>
+                    <label>E-mail Address</label>
+                    <input name="email" ng-model="currentEmployee.email"
+                           ng-pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/">
+                </md-input-container>
+                <md-button ng-disabled="employeeForm.$invalid"
+                           ng-click="submitEmployee()" class="md-raised md-primary">
+                    Submit
+                </md-button>
+                <md-button ng-click="onToggleForm()" class="md-raised md-primary">
+                    Cancel
+                </md-button>
+            </form>
+        </md-card>
+
+        <!-- company select + employee list -->
+        <md-card ng-hide="isFormMode || !currentCompany" flex="75" 
+            layout="column" layout-padding layout-margin>
+            <md-toolbar>
+                <h1>Employee List</h1>
+            </md-toolbar>
+            <!-- company selection-->
+            <div layout="row">
+                <md-select placeholder="Select a company" ng-model="selectedCompany"
+                    md-on-open="getCompanys()" md-on-close="onSelectCompany()" flex>
+                    <md-option ng-value="company"
+                               ng-repeat="company in companys | orderBy: 'companyname'">
+                        {{company.displayname}} ({{company.companyname}})
+                    </md-option>
+                </md-select>
+            </div>
+
+            <!-- list of employee of selected company -->
+            <md-list ng-show="employees">
+                <md-list-item align="left"
+                            ng-repeat="employee in employees | orderBy:'name'">
+                    <i class="material-icons md-avatar">account_circle</i>
+                    <div class="md-list-item-text" >
+
+                        <!-- employee name and contact info -->
+                        <h3><strong>{{ employee.name }}</strong></h3>
+                        <p ng-show="employee.phone">
+                            <i class="material-icons">local_phone</i> {{ employee.phone }}
+                        </p>
+                        <p ng-show="employee.email">
+                            <i class="material-icons">mail_outline</i> {{ employee.email }}
+                        </p>
+                    </div>
+
+                    <!--  edit and remove buttons shown if employees are of logged-in company -->
+                    <span ng-show="isOwner">
+                        <md-button class="md-raised md-primary" ng-click="onToggleForm(employee)">Edit</md-button>
+                        <md-button class="md-raised md-warn" ng-click="removeEmployee(employee)">Remove</md-button>
+                    </span>
+                </md-list-item>
+            </md-list>
+            <!-- create button shown if employees are of logged-in company -->
+            <md-button ng-click="onToggleForm({})" class="md-raised md-primary" 
+                       ng-hide="!isOwner">
+                    Add Employee
+            </md-button>
+        </md-card>
+    </div>
+</div>

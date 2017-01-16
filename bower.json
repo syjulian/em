@@ -1,0 +1,25 @@
+{
+  "name": "employee_management",
+  "description": "",
+  "main": "server.js",
+  "authors": [
+    "Julian Sy <juliansy0@gmail.com>"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.1",
+    "angular-material": "^1.1.1",
+    "angular-cookies": "^1.6.1",
+    "angular-route": "^1.6.1"
+  }
+}
